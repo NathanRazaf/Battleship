@@ -3,7 +3,7 @@ const ShipTest = require('./Ship');
 
 test('Gameboard receives ships', () => {
     const gameboard = GameboardTest();
-    gameboard.placeShip(ShipTest(4), 0, 0, 'right');
+    gameboard.placeShip(ShipTest(4), 0, 0, 'h');
     expect(gameboard.ships.length).toBe(1);
     expect(gameboard.grid[0][0]).toBe(gameboard.ships[0]);
     expect(gameboard.grid[1][0]).toBe(gameboard.ships[0]);
@@ -14,20 +14,22 @@ test('Gameboard receives ships', () => {
 
 test('Gameboard receives attacks', () => {
     const gameboard = GameboardTest();
-    gameboard.placeShip(ShipTest(4), 3, 4, 'right');
+    gameboard.placeShip(ShipTest(4), 3, 4, 'h');
     expect(gameboard.grid[3][4].length).toBe(4);
     gameboard.receiveAttack(3, 5);
     expect(gameboard.grid[3][4].length).toBe(4);
     expect(gameboard.successfulAttacks.length).toBe(0);
     gameboard.receiveAttack(3, 4);
     expect(gameboard.grid[3][4].length).toBe(3);
+    expect(gameboard.grid[4][4].length).toBe(3);
+    expect(gameboard.grid[5][4].length).toBe(3);
     expect(gameboard.successfulAttacks.length).toBe(1);
     expect(gameboard.successfulAttacks[0]).toEqual([3, 4]);
 });
 
 test('Gameboard keeps track of missed attacks', () => {
     const gameboard = GameboardTest();
-    gameboard.placeShip(ShipTest(4), 3, 4, 'right');
+    gameboard.placeShip(ShipTest(4), 3, 4, 'h');
     gameboard.receiveAttack(3, 5);
     gameboard.receiveAttack(3, 6);
     expect(gameboard.missedAttacks.length).toBe(2);
@@ -39,7 +41,7 @@ test('Gameboard keeps track of missed attacks', () => {
 
 test('Gameboard keeps track of sunk ships', () => {
     const gameboard = GameboardTest();
-    gameboard.placeShip(ShipTest(2), 3, 4, 'right');
+    gameboard.placeShip(ShipTest(2), 3, 4, 'h');
     expect(gameboard.ships.length).toBe(1);
     gameboard.receiveAttack(3, 4);
     expect(gameboard.ships[0].isSunk()).toBe(false);

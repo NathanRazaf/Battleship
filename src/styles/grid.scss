@@ -1,0 +1,47 @@
+$miss: linear-gradient(to bottom right, #2dcbd9, #1a6bc4);
+$hit: linear-gradient(to bottom right, #daa228, #d96b27);
+
+#player-grid, #opponent-grid {
+  height: 300px;
+  width: 300px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.75);
+}
+
+.grid-cell {
+  transition: all 0.2s ease-in-out;
+  height: 90%;
+  width: 90%;
+  align-self: center;
+  justify-self: center;
+  border: 1px solid black;
+  cursor: pointer;
+  background-color: #fff;
+  &.ship {
+    background: linear-gradient(to bottom right, #d119e7, #7417e0);
+    &.hit {
+      background: $hit;
+    }
+  }
+  &.hit {
+    background: $hit;
+  }
+  &.miss {
+  background: $miss;
+}
+  
+  &:hover {
+    background-color: #b2b2b2;
+    &.hit {
+      background: $hit;
+    }
+    &.miss {
+      background: $miss;
+    }
+  }
+  &:active {
+    transform: translateY(2px);
+  }
+}

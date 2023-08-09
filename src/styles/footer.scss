@@ -1,0 +1,17 @@
+#footer {
+  grid-row: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right, #c002ff, #744ffa);
+  color: white;
+  font-size: 20px;
+  text-shadow: 2px 2px black;
+  a {
+    color: aqua;
+    text-decoration: none;
+    &:hover {
+      color: aquamarine;
+    }
+  }
+}

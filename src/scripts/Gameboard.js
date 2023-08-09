@@ -1,35 +1,52 @@
 function Gameboard() {
     const grid = new Array(10).fill(null).map(() => new Array(10).fill(null));
+    const coordsShips = [];
     const ships = [];
     const missedAttacks = [];
     const successfulAttacks = [];
-    this.isAllSunk = false;
 
     function placeShip(ship, x, y, direction) {
+        let isValidPlacement = true;
+
         switch (direction) {
-            case 'left':
+            case "h":
+                if (y + ship.length - 1 > 9) return false; // Check bounds before starting loop
                 for (let i = 0; i < ship.length; i++) {
-                    grid[x - i][y] = ship;
+                    if (grid[x][y + i] !== null) {
+                        isValidPlacement = false;
+                        break;
+                    }
+                }
+                if (isValidPlacement) {
+                    for (let i = 0; i < ship.length; i++) {
+                        grid[x][y + i] = ship;
+                        coordsShips.push([x, y + i]);
+                        ships.push(ship);
+                    }
                 }
                 break;
-            case 'right':
+
+            case "v":
+                if (x + ship.length - 1 > 9) return false; // Check bounds before starting loop
                 for (let i = 0; i < ship.length; i++) {
-                    grid[x + i][y] = ship;
+                    if (grid[x + i][y] !== null) {
+                        isValidPlacement = false;
+                        break;
+                    }
                 }
-                break;
-            case 'up':
-                for (let i = 0; i < ship.length; i++) {
-                    grid[x][y - i] = ship;
-                }
-                break;
-            case 'down':
-                for (let i = 0; i < ship.length; i++) {
-                    grid[x][y + i] = ship;
+                if (isValidPlacement) {
+                    for (let i = 0; i < ship.length; i++) {
+                        grid[x + i][y] = ship;
+                        coordsShips.push([x + i, y]);
+                        ships.push(ship);
+                    }
                 }
                 break;
         }
-        ships.push(ship);
+
+        return isValidPlacement;
     }
+
     function receiveAttack(x, y) {
         if (grid[x][y] === null) {
             missedAttacks.push([x, y]);
@@ -48,7 +65,16 @@ function Gameboard() {
         return true;
     }
 
-    return { grid, ships, missedAttacks, successfulAttacks, isAllSunk, placeShip, receiveAttack };
+    return {
+        grid,
+        coordsShips,
+        ships,
+        missedAttacks,
+        successfulAttacks,
+        isAllSunk,
+        placeShip,
+        receiveAttack,
+    };
 }
 
 module.exports = Gameboard;
